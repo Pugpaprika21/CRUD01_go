@@ -14,9 +14,8 @@ type NewsAggPage struct {
 func newAggHandler(w http.ResponseWriter, r *http.Request) {
 	p := NewsAggPage{Title: "Hahaha", News: "Some News"}
 	t, err := template.ParseFiles("template/basictemplating.html")
-
 	if err != nil {
-		panic(err)
+		return
 	}
 	t.Execute(w, p)
 }
