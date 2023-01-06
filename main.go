@@ -11,6 +11,11 @@ type NewsAggPage struct {
 	News  string
 }
 
+type Login struct {
+	Title  string
+	Method string
+}
+
 func newAggHandler(w http.ResponseWriter, r *http.Request) {
 	p := NewsAggPage{Title: "Hahaha", News: "Some News"}
 	t, _ := template.ParseFiles("template/basictemplating.html")
@@ -29,7 +34,7 @@ func loginForm(w http.ResponseWriter, r *http.Request) {
 
 func loginProcess(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
-		p := NewsAggPage{Title: r.Method, News: "Login Error"}
+		p := Login{Title: "Login Error", Method: r.Method}
 		t, _ := template.ParseFiles("template/login_error.html")
 		t.Execute(w, p)
 	} else {
