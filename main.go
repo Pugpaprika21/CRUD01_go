@@ -21,11 +21,16 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "<h1>Hello GO</h1>")
 }
 
-func loginPage(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("method:", r.Method)
+func loginForm(w http.ResponseWriter, r *http.Request) {
+	message := "Welcome login Page"
+	t, _ := template.ParseFiles("template/login_form.html")
+	t.Execute(w, message)
+}
+
+func loginProcess(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		p := NewsAggPage{Title: r.Method, News: "Login Error"}
-		t, _ := template.ParseFiles("template/loginErr.html")
+		t, _ := template.ParseFiles("template/login_error.html")
 		t.Execute(w, p)
 	} else {
 		r.ParseForm()
@@ -35,8 +40,9 @@ func loginPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/", indexHandler)      // http://localhost:8080/
-	http.HandleFunc("/agg/", newAggHandler) // http://localhost:8080/agg/
-	http.HandleFunc("/login/", loginPage)   // http://localhost:8080/login/
+	http.HandleFunc("/", indexHandler)         // http://localhost:8080/
+	http.HandleFunc("/agg/", newAggHandler)    // http://localhost:8080/agg/
+	http.HandleFunc("/login_form/", loginForm) // http://localhost:8080/login_form/
+	http.HandleFunc("/login/", loginProcess)   // http://localhost:8080/login/
 	http.ListenAndServe(":8080", nil)
 }
