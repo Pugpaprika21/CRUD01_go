@@ -45,8 +45,9 @@ func loginProcess(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/", indexHandler)
-	http.HandleFunc("/login_form/", loginForm)
-	http.HandleFunc("/login/", loginProcess)
+	http.HandleFunc("/", indexHandler)         // http://localhost:8080/
+	http.HandleFunc("/agg/", newAggHandler)    // http://localhost:8080/agg/
+	http.HandleFunc("/login_form/", loginForm) // http://localhost:8080/login_form/
+	http.HandleFunc("/login/", loginProcess)   // http://localhost:8080/login/
 	http.ListenAndServe(":8080", nil)
 }
