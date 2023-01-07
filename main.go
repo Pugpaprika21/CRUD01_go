@@ -25,6 +25,12 @@ type LoginSuccess struct {
 	List     []string
 }
 
+type Users struct {
+	Uid     int32
+	Usrname string
+	Usrpass string
+}
+
 //Create a global instance
 //var tmplt *template.Template
 
