@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"fmt"
 	"html/template"
-	"log"
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -87,7 +86,7 @@ func loginProcess(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func getUsers() {
+func showUsers(w http.ResponseWriter, r *http.Request) {
 	db, _ := sql.Open("mysql", dsn(dbname))
 	rows, err := db.Query("SELECT * FROM USER_TB")
 	if err != nil {
@@ -95,14 +94,24 @@ func getUsers() {
 	}
 	defer rows.Close()
 
+	var USR_ID int32
+	var USR_NAME string
+	var USR_PASS string
+	var usersAll []Users
+
 	for rows.Next() {
-		var users Users
-		err := rows.Scan(&users.USR_ID, &users.USR_NAME, &users.USR_PASS)
+		//var users Users
+		err := rows.Scan(&USR_ID, &USR_NAME, &USR_PASS)
 		if err != nil {
-			panic(err.Error())
+			//panic(err.Error())
+			http.Error(w, "there was an error", http.StatusInternalServerError)
+			return
 		}
-		log.Printf(users.USR_NAME)
 	}
+
+	usersAll = append(usersAll, Users{USR_ID: USR_ID, USR_NAME: USR_NAME, USR_PASS: USR_PASS})
+	t, _ := template.ParseFiles("template/show_users.html")
+	t.Execute(w, usersAll)
 }
 
 func main() {
@@ -111,5 +120,6 @@ func main() {
 	http.HandleFunc("/agg/", newAggHandler)    // http://localhost:8080/agg/
 	http.HandleFunc("/login_form/", loginForm) // http://localhost:8080/login_form/
 	http.HandleFunc("/login/", loginProcess)   // http://localhost:8080/login/
+	http.HandleFunc("/show_users/", showUsers) // http://localhost:8080/login/
 	http.ListenAndServe(":8080", nil)
 }
