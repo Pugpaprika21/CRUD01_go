@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	db "go_crud_2/database"
 	"html/template"
 	"log"
 	"net/http"
@@ -29,17 +30,7 @@ type Users struct {
 
 //Create a global instance
 //var tmplt *template.Template
-
-const (
-	username = "root"
-	password = ""
-	hostname = "127.0.0.1:3306"
-	dbname   = "example_db"
-)
-
-func dsn(dbName string) string {
-	return fmt.Sprintf("%s:%s@tcp(%s)/%s", username, password, hostname, dbName)
-}
+var dbName = "example_db"
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "<h1>Hello GO</h1>")
@@ -77,7 +68,7 @@ func LoginProcess(w http.ResponseWriter, r *http.Request) {
 }
 
 func ShowUsers(w http.ResponseWriter, r *http.Request) {
-	db, _ := sql.Open("mysql", dsn(dbname))
+	db, _ := sql.Open("mysql", db.Dsn())
 	rows, err := db.Query("SELECT * FROM USER_TB")
 	if err != nil {
 		panic(err)
