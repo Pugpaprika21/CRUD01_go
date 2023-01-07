@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -26,9 +27,9 @@ type LoginSuccess struct {
 }
 
 type Users struct {
-	Uid     int32
-	Usrname string
-	Usrpass string
+	USR_ID   int32
+	USR_NAME string
+	USR_PASS string
 }
 
 //Create a global instance
@@ -94,22 +95,19 @@ func getUsers() {
 	}
 	defer db.Close()
 
-	query := "SELECT * FROM USER_TB"
-	rows, err := db.Query(query)
+	rows, err := db.Query("SELECT * FROM USER_TB")
 	if err != nil {
 		panic(err)
 	}
 	defer rows.Close()
 
 	for rows.Next() {
-		USR_ID := 0
-		USR_NAME := ""
-		USR_PASS := ""
-		err := rows.Scan(&USR_ID, &USR_NAME, &USR_PASS)
+		var users Users
+		err := rows.Scan(&users.USR_ID, &users.USR_NAME, &users.USR_PASS)
 		if err != nil {
-			panic(err)
+			panic(err.Error())
 		}
-		println(USR_ID, USR_NAME, USR_PASS)
+		log.Printf(users.USR_NAME)
 	}
 }
 
