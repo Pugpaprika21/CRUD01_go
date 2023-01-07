@@ -95,8 +95,8 @@ func showUsers(w http.ResponseWriter, r *http.Request) {
 	}
 	defer rows.Close()
 
-	emp := Users{}
-	res := []Users{}
+	u := Users{}
+	showUsers := []Users{}
 
 	for rows.Next() {
 		var usrId int
@@ -108,13 +108,13 @@ func showUsers(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "there was an error", http.StatusInternalServerError)
 			return
 		}
-		emp.USR_ID = usrId
-		emp.USR_NAME = usrName
-		emp.USR_PASS = usrPass
-		res = append(res, emp)
+		u.USR_ID = usrId
+		u.USR_NAME = usrName
+		u.USR_PASS = usrPass
+		showUsers = append(showUsers, u)
 	}
 	t, _ := template.ParseFiles("template/show_users.html")
-	t.Execute(w, res)
+	t.Execute(w, showUsers)
 	defer db.Close()
 }
 
