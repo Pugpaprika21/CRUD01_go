@@ -66,6 +66,10 @@ func LoginProcess(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func ServerTempError(w http.ResponseWriter, name string, data interface{}) {
+	//var buf bytes.Buffer
+}
+
 func ShowUsers(w http.ResponseWriter, r *http.Request) {
 	db, _ := sql.Open("mysql", db.Dsn())
 	rows, err := db.Query("SELECT * FROM USER_TB")
