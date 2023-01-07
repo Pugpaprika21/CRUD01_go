@@ -10,11 +10,6 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-type NewsAggPage struct {
-	Title string
-	News  string
-}
-
 type Login struct {
 	Title  string
 	Method string
@@ -46,22 +41,16 @@ func dsn(dbName string) string {
 	return fmt.Sprintf("%s:%s@tcp(%s)/%s", username, password, hostname, dbName)
 }
 
-func newAggHandler(w http.ResponseWriter, r *http.Request) {
-	p := NewsAggPage{Title: "Hahaha", News: "Some News"}
-	t, _ := template.ParseFiles("template/basictemplating.html")
-	t.Execute(w, p)
-}
-
-func indexHandler(w http.ResponseWriter, r *http.Request) {
+func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "<h1>Hello GO</h1>")
 }
 
-func loginForm(w http.ResponseWriter, r *http.Request) {
+func LoginForm(w http.ResponseWriter, r *http.Request) {
 	t, _ := template.ParseFiles("template/login_form.html")
 	t.Execute(w, nil)
 }
 
-func loginProcess(w http.ResponseWriter, r *http.Request) {
+func LoginProcess(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		p := Login{Title: "Login Error", Method: r.Method}
 		t, _ := template.ParseFiles("template/login_error.html")
@@ -87,7 +76,7 @@ func loginProcess(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func showUsers(w http.ResponseWriter, r *http.Request) {
+func ShowUsers(w http.ResponseWriter, r *http.Request) {
 	db, _ := sql.Open("mysql", dsn(dbname))
 	rows, err := db.Query("SELECT * FROM USER_TB")
 	if err != nil {
@@ -119,10 +108,9 @@ func showUsers(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/", indexHandler)         // http://localhost:8080/
-	http.HandleFunc("/agg/", newAggHandler)    // http://localhost:8080/agg/
-	http.HandleFunc("/login_form/", loginForm) // http://localhost:8080/login_form/
-	http.HandleFunc("/login/", loginProcess)   // http://localhost:8080/login/
-	http.HandleFunc("/show_users/", showUsers) // http://localhost:8080/show_users/
+	http.HandleFunc("/", IndexHandler)         // http://localhost:8080/
+	http.HandleFunc("/login_form/", LoginForm) // http://localhost:8080/login_form/
+	http.HandleFunc("/login/", LoginProcess)   // http://localhost:8080/login/
+	http.HandleFunc("/show_users/", ShowUsers) // http://localhost:8080/show_users/
 	http.ListenAndServe(":8080", nil)
 }
