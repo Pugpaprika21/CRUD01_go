@@ -36,9 +36,8 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func loginForm(w http.ResponseWriter, r *http.Request) {
-	message := "Welcome login Page"
 	t, _ := template.ParseFiles("template/login_form.html")
-	t.Execute(w, message)
+	t.Execute(w, nil)
 }
 
 func loginProcess(w http.ResponseWriter, r *http.Request) {
