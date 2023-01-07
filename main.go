@@ -1,9 +1,12 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"html/template"
 	"net/http"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type NewsAggPage struct {
@@ -24,6 +27,17 @@ type LoginSuccess struct {
 
 //Create a global instance
 //var tmplt *template.Template
+
+const (
+	username = "root"
+	password = ""
+	hostname = "127.0.0.1:3306"
+	dbname   = "example_db"
+)
+
+func dsn(dbName string) string {
+	return fmt.Sprintf("%s:%s@tcp(%s)/%s", username, password, hostname, dbName)
+}
 
 func newAggHandler(w http.ResponseWriter, r *http.Request) {
 	p := NewsAggPage{Title: "Hahaha", News: "Some News"}
@@ -65,7 +79,36 @@ func loginProcess(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func getUsers() {
+	db, err := sql.Open("mysql", dsn(dbname))
+	if err != nil {
+		fmt.Print("connected fail")
+	} else {
+		fmt.Print("connected")
+	}
+	defer db.Close()
+
+	query := "SELECT * FROM USER_TB"
+	rows, err := db.Query(query)
+	if err != nil {
+		panic(err)
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		USR_ID := 0
+		USR_NAME := ""
+		USR_PASS := ""
+		err := rows.Scan(&USR_ID, &USR_NAME, &USR_PASS)
+		if err != nil {
+			panic(err)
+		}
+		println(USR_ID, USR_NAME, USR_PASS)
+	}
+}
+
 func main() {
+	getUsers()
 	http.HandleFunc("/", indexHandler)         // http://localhost:8080/
 	http.HandleFunc("/agg/", newAggHandler)    // http://localhost:8080/agg/
 	http.HandleFunc("/login_form/", loginForm) // http://localhost:8080/login_form/
