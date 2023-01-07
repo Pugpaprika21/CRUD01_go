@@ -11,6 +11,15 @@
 <body>
     <p>Username: {{ .Username }}</p>
     <p>Password: {{ .Password }}</p>
+
+    <hr>
+
+    <ol>
+        {{range $i, $a := .List}}
+        <li>{{.}}</li>
+        {{end}}
+    </ol>
+
 </body>
 
 </html>

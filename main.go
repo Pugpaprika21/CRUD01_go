@@ -19,6 +19,7 @@ type Login struct {
 type LoginSuccess struct {
 	Username string
 	Password string
+	List     []string
 }
 
 //Create a global instance
@@ -47,7 +48,16 @@ func loginProcess(w http.ResponseWriter, r *http.Request) {
 		t.Execute(w, p)
 	} else {
 		r.ParseForm()
-		p := LoginSuccess{Username: r.FormValue("username"), Password: r.FormValue("password")}
+
+		makeList := []string{
+			"Technology Explained",
+			"Programming",
+			"Linux",
+			"Android",
+			"iOS",
+			"Many More................"}
+
+		p := LoginSuccess{Username: r.FormValue("username"), Password: r.FormValue("password"), List: makeList}
 		t, _ := template.ParseFiles("template/login_success.html")
 		t.Execute(w, p)
 
