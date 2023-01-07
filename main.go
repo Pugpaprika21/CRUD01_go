@@ -16,6 +16,14 @@ type Login struct {
 	Method string
 }
 
+type LoginSuccess struct {
+	Username string
+	Password string
+}
+
+//Create a global instance
+//var tmplt *template.Template
+
 func newAggHandler(w http.ResponseWriter, r *http.Request) {
 	p := NewsAggPage{Title: "Hahaha", News: "Some News"}
 	t, _ := template.ParseFiles("template/basictemplating.html")
@@ -39,8 +47,12 @@ func loginProcess(w http.ResponseWriter, r *http.Request) {
 		t.Execute(w, p)
 	} else {
 		r.ParseForm()
-		fmt.Println("username:", r.Form["username"])
-		fmt.Println("password:", r.Form["password"])
+		p := LoginSuccess{Username: r.FormValue("username"), Password: r.FormValue("password")}
+		t, _ := template.ParseFiles("template/login_success.html")
+		t.Execute(w, p)
+
+		// fmt.Println("username:", r.Form["username"])
+		// fmt.Println("password:", r.Form["password"])
 	}
 }
 
