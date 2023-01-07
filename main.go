@@ -87,14 +87,7 @@ func loginProcess(w http.ResponseWriter, r *http.Request) {
 }
 
 func getUsers() {
-	db, err := sql.Open("mysql", dsn(dbname))
-	if err != nil {
-		fmt.Print("connected fail")
-	} else {
-		fmt.Print("connected")
-	}
-	defer db.Close()
-
+	db, _ := sql.Open("mysql", dsn(dbname))
 	rows, err := db.Query("SELECT * FROM USER_TB")
 	if err != nil {
 		panic(err)
