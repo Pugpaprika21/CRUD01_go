@@ -10,6 +10,25 @@
 
 <body>
 
+    <table border="1">
+        <thead>
+            <tr>
+                <td>USR_ID</td>
+                <td>USR_NAME</td>
+                <td>USR_PASS</td>
+            </tr>
+        </thead>
+        <tbody>
+            {{ range . }}
+            <tr>
+                <td>{{ .USR_ID }}</td>
+                <td>{{ .USR_NAME }}</td>
+                <td>{{ .USR_PASS }}</td>
+            </tr>
+            {{ end }}
+        </tbody>
+    </table>
+
 </body>
 
 </html>

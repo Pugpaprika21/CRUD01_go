@@ -120,6 +120,6 @@ func main() {
 	http.HandleFunc("/agg/", newAggHandler)    // http://localhost:8080/agg/
 	http.HandleFunc("/login_form/", loginForm) // http://localhost:8080/login_form/
 	http.HandleFunc("/login/", loginProcess)   // http://localhost:8080/login/
-	http.HandleFunc("/show_users/", showUsers) // http://localhost:8080/login/
+	http.HandleFunc("/show_users/", showUsers) // http://localhost:8080/show_users/
 	http.ListenAndServe(":8080", nil)
 }
