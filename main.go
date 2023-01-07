@@ -30,7 +30,6 @@ type Users struct {
 
 //Create a global instance
 //var tmplt *template.Template
-var dbName = "example_db"
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "<h1>Hello GO</h1>")
