@@ -108,7 +108,7 @@ func getUsers() {
 }
 
 func main() {
-	getUsers()
+	//getUsers()
 	http.HandleFunc("/", indexHandler)         // http://localhost:8080/
 	http.HandleFunc("/agg/", newAggHandler)    // http://localhost:8080/agg/
 	http.HandleFunc("/login_form/", loginForm) // http://localhost:8080/login_form/
