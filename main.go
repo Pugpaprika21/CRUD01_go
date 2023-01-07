@@ -97,10 +97,15 @@ func ShowUsers(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 }
 
+func ShowUser(w http.ResponseWriter, r *http.Request) {
+
+}
+
 func main() {
 	http.HandleFunc("/", IndexHandler)         // http://localhost:8080/
 	http.HandleFunc("/login_form/", LoginForm) // http://localhost:8080/login_form/
 	http.HandleFunc("/login/", LoginProcess)   // http://localhost:8080/login/
 	http.HandleFunc("/show_users/", ShowUsers) // http://localhost:8080/show_users/
+	http.HandleFunc("/show_user/", ShowUser)   // http://localhost:8080/show_user/
 	http.ListenAndServe(":8080", nil)
 }
