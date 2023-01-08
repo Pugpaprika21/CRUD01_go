@@ -20,15 +20,6 @@ type LoginSuccess struct {
 	List     []string
 }
 
-type Users struct {
-	USR_ID   int
-	USR_NAME string
-	USR_PASS string
-}
-
-//Create a global instance
-//var tmplt *template.Template
-
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "<h1>Hello GO</h1>")
 }

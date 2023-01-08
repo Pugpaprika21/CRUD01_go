@@ -15,6 +15,9 @@ type Users struct {
 	USR_PASS string
 }
 
+//Create a global instance
+//var tmplt *template.Template
+
 func RowNumber(x, y int) int {
 	return x + y
 }
