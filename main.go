@@ -1,12 +1,9 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
-	db "go_crud_2/database"
+	UserController "go_crud_2/controllers"
 	"html/template"
-	"io"
-	"log"
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -67,56 +64,11 @@ func LoginProcess(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func RowNumber(x, y int) int {
-	return x + y
-}
-
-func ShowUsers(w http.ResponseWriter, r *http.Request) {
-	db, _ := sql.Open("mysql", db.Dsn())
-	rows, err := db.Query("SELECT * FROM USER_TB")
-	if err != nil {
-		panic(err)
-	}
-	defer rows.Close()
-
-	u := Users{}
-	showUsers := []Users{}
-
-	for rows.Next() {
-		var usrId int
-		var usrName string
-		var usrPass string
-		err := rows.Scan(&usrId, &usrName, &usrPass)
-		if err != nil {
-			log.Println(err)
-			http.Error(w, "there was an error", http.StatusInternalServerError)
-			return
-		}
-		u.USR_ID = usrId
-		u.USR_NAME = usrName
-		u.USR_PASS = usrPass
-		showUsers = append(showUsers, u)
-	}
-
-	row := template.FuncMap{"RowNumber": RowNumber}
-	t := template.Must(template.New("show_users.html").Funcs(row).ParseFiles("template/show_users.html"))
-	t.Execute(w, showUsers)
-	defer db.Close()
-}
-
-func ShowUser(w http.ResponseWriter, r *http.Request) {
-	if r.Method == "GET" {
-		r.ParseForm()
-		usr_id := r.Form.Get("USR_ID")
-		io.WriteString(w, "USR_ID: "+usr_id)
-	}
-}
-
 func main() {
-	http.HandleFunc("/", IndexHandler)         // http://localhost:8080/
-	http.HandleFunc("/login_form/", LoginForm) // http://localhost:8080/login_form/
-	http.HandleFunc("/login/", LoginProcess)   // http://localhost:8080/login/
-	http.HandleFunc("/show_users/", ShowUsers) // http://localhost:8080/show_users/
-	http.HandleFunc("/show_user/", ShowUser)   // http://localhost:8080/show_user/
+	http.HandleFunc("/", IndexHandler)                        // http://localhost:8080/
+	http.HandleFunc("/login_form/", LoginForm)                // http://localhost:8080/login_form/
+	http.HandleFunc("/login/", LoginProcess)                  // http://localhost:8080/login/
+	http.HandleFunc("/show_users/", UserController.ShowUsers) // http://localhost:8080/show_users/
+	http.HandleFunc("/show_user/", UserController.ShowUser)   // http://localhost:8080/show_user/
 	http.ListenAndServe(":8080", nil)
 }
