@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	db "go_crud_2/database"
 	"html/template"
+	_ "io"
 	"log"
 	"net/http"
 )
@@ -77,4 +78,6 @@ func ShowUser(w http.ResponseWriter, r *http.Request) {
 		t.Execute(w, u)
 		defer db.Close()
 	}
+
+	//io.WriteString(w, "request error!!")
 }
