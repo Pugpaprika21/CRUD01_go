@@ -59,6 +59,26 @@ func ShowUser(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		r.ParseForm()
 		usr_id := r.Form.Get("USR_ID")
+
+		db, _ := sql.Open("mysql", db.Dsn())
+		row, _ := db.Query("SELECT * FROM USER_TB WHERE USR_ID = ?", usr_id)
+		defer row.Close()
+
+		var u Users
+
+		if row.Next() {
+			err := row.Scan(&u.USR_ID, &u.USR_NAME, &u.USR_PASS)
+			if err != nil {
+				log.Println(err)
+				http.Error(w, "there was an error", http.StatusInternalServerError)
+				return
+			}
+		}
+
+		t, _ := template.ParseFiles("template/show_user.html")
+		t.Execute(w, u)
+		defer db.Close()
+
 		io.WriteString(w, "USR_ID: "+usr_id)
 	}
 }
