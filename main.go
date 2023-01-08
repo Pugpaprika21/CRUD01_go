@@ -5,6 +5,7 @@ import (
 	"fmt"
 	db "go_crud_2/database"
 	"html/template"
+	"io"
 	"log"
 	"net/http"
 
@@ -66,8 +67,8 @@ func LoginProcess(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func ServerTempError(w http.ResponseWriter, name string, data interface{}) {
-	//var buf bytes.Buffer
+func RowNumber(x, y int) int {
+	return x + y
 }
 
 func ShowUsers(w http.ResponseWriter, r *http.Request) {
@@ -96,13 +97,19 @@ func ShowUsers(w http.ResponseWriter, r *http.Request) {
 		u.USR_PASS = usrPass
 		showUsers = append(showUsers, u)
 	}
-	t, _ := template.ParseFiles("template/show_users.html")
+
+	row := template.FuncMap{"RowNumber": RowNumber}
+	t := template.Must(template.New("show_users.html").Funcs(row).ParseFiles("template/show_users.html"))
 	t.Execute(w, showUsers)
 	defer db.Close()
 }
 
 func ShowUser(w http.ResponseWriter, r *http.Request) {
-
+	if r.Method == "GET" {
+		r.ParseForm()
+		usr_id := r.Form.Get("USR_ID")
+		io.WriteString(w, "USR_ID: "+usr_id)
+	}
 }
 
 func main() {
