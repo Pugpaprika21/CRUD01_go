@@ -21,6 +21,14 @@ type Users struct {
 //Create a global instance
 //var tmplt *template.Template
 
+// makeList := []string{
+// 	"Technology Explained",
+// 	"Programming",
+// 	"Linux",
+// 	"Android",
+// 	"iOS",
+// 	"Many More................"}
+
 func RowNumber(x, y int) int {
 	return x + y
 }
