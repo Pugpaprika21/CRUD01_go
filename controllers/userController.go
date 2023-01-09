@@ -116,6 +116,4 @@ func ShowUser(w http.ResponseWriter, r *http.Request) {
 		t.Execute(w, u)
 		defer db.Close()
 	}
-
-	//io.WriteString(w, "request error!!")
 }
