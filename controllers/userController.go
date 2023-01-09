@@ -47,7 +47,6 @@ func FormAddUserProcess(w http.ResponseWriter, r *http.Request) {
 		//reqDump, _ := DumpReq(r, true)
 		// io.WriteString(w, "USR_NAME :"+usr_name+"and USR_PASS :"+usr_pass)
 		// io.WriteString(w, string(reqDump))
-
 		db, _ := sql.Open("mysql", db.Dsn())
 		insertStmt, _ := db.Prepare("INSERT INTO USER_TB(USR_NAME, USR_PASS) VALUES(?, ?)")
 		_, err := insertStmt.Exec(usr_name, usr_pass)
