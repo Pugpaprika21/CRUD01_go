@@ -18,7 +18,9 @@
                     <th scope="col">USR_ID</th>
                     <th scope="col">USR_NAME</th>
                     <th scope="col">USR_PASS</th>
-                    <th scope="col">ACTION</th>
+                    <th scope="col">DETAIL</th>
+                    <th scope="col">UPDATE</th>
+                    <th scope="col">DELETE</th>
                 </tr>
             </thead>
             <tbody>
@@ -28,7 +30,9 @@
                     <td>{{ .USR_ID }}</td>
                     <td>{{ .USR_NAME }}</td>
                     <td>{{ .USR_PASS }}</td>
-                    <td><a class="btn btn-primary" href="/show_user/?USR_ID={{ .USR_ID }}" role="button">ACTION</a></td>
+                    <td><a class="btn btn-primary" href="/show_user/?USR_ID={{ .USR_ID }}" role="button">DETAIL</a></td>
+                    <td><a class="btn btn-warning" href="" role="button">UPDATE</a></td>
+                    <td><a class="btn btn-danger" href="" role="button">DELETE</a></td>
                 </tr>
                 {{ end }}
             </tbody>
