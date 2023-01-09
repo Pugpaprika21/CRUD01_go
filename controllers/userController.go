@@ -117,3 +117,32 @@ func ShowUser(w http.ResponseWriter, r *http.Request) {
 		defer db.Close()
 	}
 }
+
+func FormUpdateUser(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "GET" {
+		r.ParseForm()
+
+		usr_id := html.EscapeString(r.Form.Get("USR_ID"))
+
+		db, _ := sql.Open("mysql", db.Dsn())
+		row := db.QueryRow("SELECT * FROM USER_TB WHERE USR_ID = ?", usr_id)
+
+		u := new(Users)
+		err := row.Scan(&u.USR_ID, &u.USR_NAME, &u.USR_PASS)
+
+		if err == sql.ErrNoRows {
+			http.NotFound(w, r)
+			return
+		} else if err != nil {
+			http.Error(w, http.StatusText(500), 500)
+			return
+		}
+
+		t, _ := template.ParseFiles("template/form_update_user.html")
+		t.Execute(w, u)
+	}
+}
+
+func UpdateUserProcess(w http.ResponseWriter, r *http.Request) {
+
+}

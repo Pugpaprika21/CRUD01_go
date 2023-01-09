@@ -31,7 +31,7 @@
                     <td>{{ .USR_NAME }}</td>
                     <td>{{ .USR_PASS }}</td>
                     <td><a class="btn btn-primary" href="/show_user/?USR_ID={{ .USR_ID }}" role="button">DETAIL</a></td>
-                    <td><a class="btn btn-warning" href="" role="button">UPDATE</a></td>
+                    <td><a class="btn btn-warning" href="/formUpdateUser/?USR_ID={{ .USR_ID }}" role="button">UPDATE</a></td>
                     <td><a class="btn btn-danger" href="" role="button">DELETE</a></td>
                 </tr>
                 {{ end }}
