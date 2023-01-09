@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"net/http/httputil"
+	"strconv"
 )
 
 type Users struct {
@@ -38,15 +39,14 @@ func FormAddUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func FormAddUserProcess(w http.ResponseWriter, r *http.Request) {
-
 	if r.Method == "POST" {
 		r.ParseForm()
 		usr_name := html.EscapeString(r.FormValue("USR_NAME"))
 		usr_pass := html.EscapeString(r.FormValue("USR_PASS"))
 
 		//reqDump, _ := DumpReq(r, true)
-		// io.WriteString(w, "USR_NAME :"+usr_name+"and USR_PASS :"+usr_pass)
 		// io.WriteString(w, string(reqDump))
+
 		db, _ := sql.Open("mysql", db.Dsn())
 		insertStmt, _ := db.Prepare("INSERT INTO USER_TB(USR_NAME, USR_PASS) VALUES(?, ?)")
 		_, err := insertStmt.Exec(usr_name, usr_pass)
@@ -54,7 +54,7 @@ func FormAddUserProcess(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			panic(err.Error())
 		} else {
-			http.Redirect(w, r, "/formAddUser/", http.StatusSeeOther)
+			http.Redirect(w, r, "/formAddUser/ADD_USR?success="+strconv.Itoa(http.StatusOK), http.StatusSeeOther)
 		}
 		defer db.Close()
 	}

@@ -41,7 +41,6 @@ func LoginProcess(w http.ResponseWriter, r *http.Request) {
 
 		// fmt.Println("username:", r.Form["username"])
 		// fmt.Println("password:", r.Form["password"])
-		// err = db.QueryRow("SELECT id, name FROM tags where id = ?", 2).Scan(&tag.ID, &tag.Name)
 	}
 }
 
