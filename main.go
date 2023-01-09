@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	UserController "go_crud_2/controllers"
 	"html/template"
 	"net/http"
@@ -18,15 +17,6 @@ type LoginSuccess struct {
 	Username string
 	Password string
 	List     []string
-}
-
-func IndexHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "<h1>Hello GO</h1>")
-}
-
-func LoginForm(w http.ResponseWriter, r *http.Request) {
-	t, _ := template.ParseFiles("template/login_form.html")
-	t.Execute(w, nil)
 }
 
 func LoginProcess(w http.ResponseWriter, r *http.Request) {
@@ -56,10 +46,10 @@ func LoginProcess(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/", IndexHandler)                        // http://localhost:8080/
-	http.HandleFunc("/login_form/", LoginForm)                // http://localhost:8080/login_form/
-	http.HandleFunc("/login/", LoginProcess)                  // http://localhost:8080/login/
-	http.HandleFunc("/show_users/", UserController.ShowUsers) // http://localhost:8080/show_users/
-	http.HandleFunc("/show_user/", UserController.ShowUser)   // http://localhost:8080/show_user/
+	http.HandleFunc("/formAddUser/", UserController.FormAddUser)               // http://localhost:8080/formAddUser/
+	http.HandleFunc("/formAddUserProcess/", UserController.FormAddUserProcess) // http://localhost:8080/formAddUserProcess/
+	http.HandleFunc("/login/", LoginProcess)                                   // http://localhost:8080/login/
+	http.HandleFunc("/show_users/", UserController.ShowUsers)                  // http://localhost:8080/show_users/
+	http.HandleFunc("/show_user/", UserController.ShowUser)                    // http://localhost:8080/show_user/
 	http.ListenAndServe(":8080", nil)
 }
