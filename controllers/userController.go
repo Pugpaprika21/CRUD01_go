@@ -5,7 +5,7 @@ import (
 	db "go_crud_2/database"
 	"html"
 	"html/template"
-	_ "io"
+	"io"
 	"log"
 	"net/http"
 	"net/http/httputil"
@@ -144,5 +144,8 @@ func FormUpdateUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateUserProcess(w http.ResponseWriter, r *http.Request) {
-
+	if r.Method == "POST" {
+		debug, _ := DumpReq(r, true)
+		io.WriteString(w, "request: "+string(debug))
+	}
 }
