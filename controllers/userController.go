@@ -56,7 +56,6 @@ func FormAddUserProcess(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		} else {
 			http.Redirect(w, r, "/formAddUser/", http.StatusSeeOther)
-			//io.WriteString(w, "Records inserted successfully.")
 		}
 		defer db.Close()
 	}
