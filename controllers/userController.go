@@ -145,6 +145,7 @@ func FormUpdateUser(w http.ResponseWriter, r *http.Request) {
 
 func UpdateUserProcess(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
+		r.ParseForm()
 		debug, _ := DumpReq(r, true)
 		io.WriteString(w, "request: "+string(debug))
 	}
