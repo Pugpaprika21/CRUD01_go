@@ -166,6 +166,7 @@ func UpdateUserProcess(w http.ResponseWriter, r *http.Request) {
 
 		if err != nil {
 			resp["message"] = "update error!!"
+			resp["status"] = strconv.Itoa(http.StatusInternalServerError)
 			json, _ := json.Marshal(resp)
 			w.Write(json)
 			return
