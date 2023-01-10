@@ -21,5 +21,6 @@ func main() {
 	http.HandleFunc("/show_user/", UserController.ShowUser)                    // http://localhost:8080/show_user/
 	http.HandleFunc("/formUpdateUser/", UserController.FormUpdateUser)         // http://localhost:8080/formUpdateUser/
 	http.HandleFunc("/updateUserProcess/", UserController.UpdateUserProcess)   // http://localhost:8080/updateUserProcess/
+	http.HandleFunc("/notFound", http.NotFound)
 	http.ListenAndServe(":8080", nil)
 }

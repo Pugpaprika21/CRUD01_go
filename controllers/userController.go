@@ -152,7 +152,6 @@ func FormUpdateUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateUserProcess(w http.ResponseWriter, r *http.Request) {
-
 	if r.Method == "POST" {
 		r.ParseForm()
 		usr_id := html.EscapeString(r.FormValue("USR_ID"))
@@ -160,7 +159,8 @@ func UpdateUserProcess(w http.ResponseWriter, r *http.Request) {
 		usr_pass := html.EscapeString(r.FormValue("USR_PASS"))
 
 		db, _ := sql.Open("mysql", db.Dsn())
-		result, err := db.Exec("UPDATE USER_TB SET USR_NAME = ?, USR_PASS = ? WHERE USR_ID = ?", usr_name, usr_pass, usr_id)
+		stmt, _ := db.Prepare("UPDATE USER_TB SET USR_NAME = ?, USR_PASS = ? WHERE USR_ID = ?")
+		result, err := stmt.Exec(usr_name, usr_pass, usr_id)
 
 		resp := make(map[string]string)
 
