@@ -2,10 +2,10 @@ package UserController
 
 import (
 	"database/sql"
+	"encoding/json"
 	db "go_crud_2/database"
 	"html"
 	"html/template"
-	"io"
 	"log"
 	"net/http"
 	"net/http/httputil"
@@ -152,9 +152,25 @@ func FormUpdateUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateUserProcess(w http.ResponseWriter, r *http.Request) {
+
 	if r.Method == "POST" {
 		r.ParseForm()
-		debug, _ := DumpReq(r, true)
-		io.WriteString(w, "request: "+string(debug))
+		usr_id := html.EscapeString(r.FormValue("USR_ID"))
+		usr_name := html.EscapeString(r.FormValue("USR_NAME"))
+		usr_pass := html.EscapeString(r.FormValue("USR_PASS"))
+
+		db, _ := sql.Open("mysql", db.Dsn())
+		result, err := db.Exec("UPDATE USER_TB SET USR_NAME = ?, USR_PASS = ? WHERE USR_ID = ?", usr_name, usr_pass, usr_id)
+
+		resp := make(map[string]string)
+
+		if err != nil {
+			resp["message"] = "Resource Not Found"
+			jsonResp, _ := json.Marshal(resp)
+			w.Write(jsonResp)
+		} else {
+			result.RowsAffected()
+		}
+		defer db.Close()
 	}
 }

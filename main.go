@@ -1,10 +1,11 @@
 package main
 
 import (
-	_ "github.com/go-sql-driver/mysql"
 	UserController "go_crud_2/controllers"
 	"html/template"
 	"net/http"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
