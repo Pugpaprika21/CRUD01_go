@@ -160,7 +160,7 @@ func UpdateUserProcess(w http.ResponseWriter, r *http.Request) {
 
 		db, _ := sql.Open("mysql", db.Dsn())
 		stmt, _ := db.Prepare("UPDATE USER_TB SET USR_NAME = ?, USR_PASS = ? WHERE USR_ID = ?")
-		result, err := stmt.Exec(usr_name, usr_pass, usr_id)
+		_, err := stmt.Exec(usr_name, usr_pass, usr_id)
 
 		resp := make(map[string]string)
 
@@ -168,8 +168,6 @@ func UpdateUserProcess(w http.ResponseWriter, r *http.Request) {
 			resp["message"] = "Resource Not Found"
 			jsonResp, _ := json.Marshal(resp)
 			w.Write(jsonResp)
-		} else {
-			result.RowsAffected()
 		}
 		defer db.Close()
 	}
