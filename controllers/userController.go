@@ -165,10 +165,15 @@ func UpdateUserProcess(w http.ResponseWriter, r *http.Request) {
 		resp := make(map[string]string)
 
 		if err != nil {
-			resp["message"] = "Resource Not Found"
-			jsonResp, _ := json.Marshal(resp)
-			w.Write(jsonResp)
+			resp["message"] = "update error!!"
+			json, _ := json.Marshal(resp)
+			w.Write(json)
+			return
 		}
-		defer db.Close()
+
+		defer func() {
+			defer db.Close()
+			http.Redirect(w, r, "/formAddUser/", http.StatusOK)
+		}()
 	}
 }
